@@ -1,0 +1,5 @@
+# Git ignore for StudyTrack
+.git-portable/
+node_modules/
+.DS_Store
+Thumbs.db

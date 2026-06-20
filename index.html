@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>StudyTrack | Competitive Exam Study Tracker (UPSC, JEE, NEET)</title>
+  <meta name="description" content="StudyTrack helps Indian competitive exam aspirants track their study hours, build daily streaks, and analyze their performance.">
+  
+  <!-- FontAwesome Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Custom Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- Navigation Bar -->
+  <nav class="navbar">
+    <div class="container navbar-container">
+      <a href="#/home" class="logo">
+        <i class="fa-solid fa-graduation-cap"></i>
+        <span>Study<span class="text-gradient">Track</span></span>
+      </a>
+      
+      <!-- Guest Links (Shown when logged out) -->
+      <div class="nav-links" id="guest-nav">
+        <a href="#/home" class="nav-link">Home</a>
+        <a href="#/auth" class="btn btn-primary" id="nav-login-btn">Get Started</a>
+      </div>
+      
+      <!-- Authenticated Links (Shown when logged in) -->
+      <div class="nav-links" id="auth-nav" style="display: none;">
+        <a href="#/dashboard" class="nav-link" id="nav-dash-link">Dashboard</a>
+        <a href="#/report" class="nav-link" id="nav-report-link">Weekly Report</a>
+        <div class="nav-user">
+          <span class="user-email" id="display-user-email">user@exam.com</span>
+          <button class="btn btn-secondary btn-icon" id="logout-btn" title="Logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+  </nav>
+
+  <main class="container">
+    
+    <!-- 1. LANDING/HOME VIEW -->
+    <section id="home-view" class="view-section active-view fade-in">
+      <div class="hero-section">
+        <div class="exam-tags">
+          <span class="exam-tag">UPSC</span>
+          <span class="exam-tag">JEE MAIN & ADVANCED</span>
+          <span class="exam-tag">NEET</span>
+          <span class="exam-tag">GATE</span>
+        </div>
+        <h1>Master Your Competitive Exams with <span class="text-gradient">StudyTrack</span></h1>
+        <p>The ultimate prep companion for Indian aspirants. Track your daily study hours, maintain study streaks, and analyze your subject-wise efforts to ace your examinations.</p>
+        <div class="hero-ctas">
+          <a href="#/auth" class="btn btn-primary">Start Tracking Free <i class="fa-solid fa-arrow-right"></i></a>
+          <a href="#/auth" class="btn btn-secondary">Login</a>
+        </div>
+      </div>
+
+      <div class="features-section">
+        <h2 style="text-align: center; margin-bottom: 3rem; font-size: 2rem;">Designed to Help You Stay Focused</h2>
+        <div class="features-grid">
+          <!-- Benefit 1 -->
+          <div class="glass-panel feature-card">
+            <div class="feature-icon-wrapper">
+              <i class="fa-solid fa-book-bookmark"></i>
+            </div>
+            <h3>Syllabus & Subject Tracking</h3>
+            <p>Organize your prep by adding subjects tailored to your exam. Log your progress in Physics, History, Organic Chemistry, or Indian Polity with ease.</p>
+          </div>
+          <!-- Benefit 2 -->
+          <div class="glass-panel feature-card">
+            <div class="feature-icon-wrapper">
+              <i class="fa-solid fa-stopwatch"></i>
+            </div>
+            <h3>Smart Study Timer</h3>
+            <p>Start study sessions with a clean, distraction-free focus stopwatch. Pause whenever you take a break and log precise hours to your database.</p>
+          </div>
+          <!-- Benefit 3 -->
+          <div class="glass-panel feature-card">
+            <div class="feature-icon-wrapper">
+              <i class="fa-solid fa-fire"></i>
+            </div>
+            <h3>Maintain Study Streaks</h3>
+            <p>Build consistency—the key to cracking competitive exams. Study for at least 30 minutes daily to grow your streak fire. Don't break the chain!</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 2. AUTHENTICATION VIEW -->
+    <section id="auth-view" class="view-section fade-in">
+      <div class="glass-panel auth-container">
+        <div class="auth-tabs">
+          <div class="auth-tab active-tab" id="tab-login" onclick="switchAuthTab('login')">Login</div>
+          <div class="auth-tab" id="tab-signup" onclick="switchAuthTab('signup')">Sign Up</div>
+        </div>
+        
+        <!-- Login Form -->
+        <div class="auth-form-container active-form" id="form-login">
+          <form id="login-form">
+            <div class="form-group">
+              <label for="login-email">Email Address</label>
+              <input type="email" id="login-email" class="input-control" placeholder="Enter your email" required autocomplete="email">
+            </div>
+            <div class="form-group">
+              <label for="login-password">Password</label>
+              <input type="password" id="login-password" class="input-control" placeholder="••••••••" required autocomplete="current-password">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+              Log In <i class="fa-solid fa-right-to-bracket"></i>
+            </button>
+          </form>
+        </div>
+
+        <!-- Signup Form -->
+        <div class="auth-form-container" id="form-signup">
+          <form id="signup-form">
+            <div class="form-group">
+              <label for="signup-email">Email Address</label>
+              <input type="email" id="signup-email" class="input-control" placeholder="Enter your email" required autocomplete="email">
+            </div>
+            <div class="form-group">
+              <label for="signup-password">Password (min. 6 characters)</label>
+              <input type="password" id="signup-password" class="input-control" placeholder="••••••••" required autocomplete="new-password" minlength="6">
+            </div>
+            <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 1rem;">
+              Create Account <i class="fa-solid fa-user-plus"></i>
+            </button>
+          </form>
+        </div>
+      </div>
+    </section>
+
+    <!-- 3. DASHBOARD VIEW -->
+    <section id="dashboard-view" class="view-section fade-in">
+      <div class="dashboard-grid">
+        
+        <!-- Dashboard Greeting Header -->
+        <div class="dashboard-header">
+          <div>
+            <h2 id="dashboard-greeting" style="font-size: 2rem; margin-bottom: 0.25rem;">Namaste, Scholar!</h2>
+            <p style="color: var(--color-text-secondary); font-size: 0.95rem;">Track your study time and keep your streak burning.</p>
+          </div>
+        </div>
+
+        <!-- Stats Row (Today's Hours + Streak Counter) -->
+        <div class="stats-row" style="grid-column: 1 / -1;">
+          <!-- Streak Card -->
+          <div class="glass-panel stat-card" id="streak-card">
+            <div class="stat-icon streak-icon">
+              <i class="fa-solid fa-fire"></i>
+            </div>
+            <div class="stat-info">
+              <span class="stat-val" id="streak-count-val">0</span>
+              <span class="stat-label">Day Streak</span>
+            </div>
+          </div>
+          <!-- Today's Study Time -->
+          <div class="glass-panel stat-card">
+            <div class="stat-icon time-icon">
+              <i class="fa-solid fa-clock"></i>
+            </div>
+            <div class="stat-info">
+              <span class="stat-val" id="today-total-time">0h 0m</span>
+              <span class="stat-label">Today's Focus Time</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Main Column (Timer & Subjects) -->
+        <div class="main-dashboard-column">
+          
+          <!-- Focus Timer Panel -->
+          <div class="glass-panel timer-container" id="timer-panel">
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Study Timer</h3>
+            
+            <div class="form-group" style="width: 100%; max-width: 320px; margin-bottom: 1rem;">
+              <select id="timer-subject-select" class="input-control" style="text-align-last: center;">
+                <option value="" disabled selected>-- Select Subject --</option>
+              </select>
+            </div>
+
+            <!-- SVG Circular Timer -->
+            <div class="timer-circle-wrapper">
+              <svg class="timer-circle-svg" viewBox="0 0 220 220">
+                <defs>
+                  <linearGradient id="timer-gradient" x1="0%" y1="0%" x2="100%" y2="100%">
+                    <stop offset="0%" stop-color="#6366f1" />
+                    <stop offset="100%" stop-color="#a855f7" />
+                  </linearGradient>
+                </defs>
+                <circle class="timer-circle-bg" cx="110" cy="110" r="100" />
+                <circle id="timer-circle-progress" class="timer-circle-progress" cx="110" cy="110" r="100" />
+              </svg>
+              <div style="display: flex; flex-direction: column; align-items: center; justify-content: center;">
+                <span class="timer-time-display" id="timer-clock">00:00:00</span>
+                <span class="timer-state-label" id="timer-status">Paused</span>
+              </div>
+            </div>
+
+            <div class="timer-controls">
+              <button class="btn btn-primary" id="timer-start-btn" disabled>
+                <i class="fa-solid fa-play"></i> Start
+              </button>
+              <button class="btn btn-secondary" id="timer-pause-btn" style="display: none;">
+                <i class="fa-solid fa-pause"></i> Pause
+              </button>
+              <button class="btn btn-danger" id="timer-stop-btn" style="display: none;">
+                <i class="fa-solid fa-square"></i> Log Session
+              </button>
+            </div>
+          </div>
+
+          <!-- Subject Manager Panel -->
+          <div class="subjects-section">
+            <div class="subjects-section-header">
+              <h3 style="font-size: 1.25rem;">My Subjects</h3>
+              <button class="btn btn-secondary" id="add-subject-trigger">
+                <i class="fa-solid fa-plus"></i> Add Subject
+              </button>
+            </div>
+            
+            <div class="subjects-list" id="dashboard-subjects-list">
+              <!-- Rendered via JS -->
+              <div class="empty-state">No subjects added yet. Click "Add Subject" to begin!</div>
+            </div>
+          </div>
+
+        </div>
+
+        <!-- Sidebar (Today's Logs Activity) -->
+        <div class="sidebar-column">
+          <div class="glass-panel activity-card">
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem; display: flex; align-items: center; gap: 0.5rem;">
+              <i class="fa-solid fa-receipt text-gradient"></i> Today's Sessions
+            </h3>
+            <p style="color: var(--color-text-secondary); font-size: 0.85rem;">History of study sessions logged today.</p>
+            
+            <div class="activity-list" id="today-activity-list">
+              <!-- Rendered via JS -->
+              <div class="empty-state">No sessions logged today.</div>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- 4. WEEKLY REPORT VIEW -->
+    <section id="report-view" class="view-section fade-in">
+      <div class="report-header">
+        <h2 style="font-size: 2rem; margin-bottom: 0.25rem;">Weekly Prep Report</h2>
+        <p style="color: var(--color-text-secondary);">Analyze your study patterns over the past 7 days.</p>
+      </div>
+
+      <div class="report-grid">
+        <!-- Chart.js Container -->
+        <div class="glass-panel chart-card">
+          <h3 style="font-size: 1.25rem; margin-bottom: 1.5rem; display: flex; align-items: center; gap: 0.5rem;">
+            <i class="fa-solid fa-chart-simple text-gradient"></i> Study Time Distribution
+          </h3>
+          <div style="position: relative; height: 300px; width: 100%;">
+            <canvas id="weekly-chart"></canvas>
+          </div>
+        </div>
+
+        <!-- Weekly Statistics Summary Panel -->
+        <div class="glass-panel stats-breakdown-card">
+          <div>
+            <h3 style="font-size: 1.25rem; margin-bottom: 0.5rem;">Subject-wise Summary</h3>
+            <p style="color: var(--color-text-secondary); font-size: 0.85rem; margin-bottom: 1.5rem;">Total hours invested per subject in the last 7 days.</p>
+            
+            <div class="stats-breakdown-list" id="report-subjects-list">
+              <!-- Rendered via JS -->
+              <div class="empty-state">Add subjects and start tracking to view reports.</div>
+            </div>
+          </div>
+          
+          <div style="border-top: 1px solid var(--border-glass); padding-top: 1.5rem; margin-top: 2rem; display: flex; justify-content: space-between; align-items: center;">
+            <span style="font-weight: 600;">7-Day Cumulative Time:</span>
+            <span class="text-gradient" id="report-cumulative-time" style="font-size: 1.5rem; font-weight: 800;">0.0 hrs</span>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Add Subject Modal Dialog -->
+  <div class="modal" id="add-subject-modal">
+    <div class="glass-panel modal-content">
+      <div class="modal-header">
+        <h3 style="font-size: 1.25rem;">Create Subject</h3>
+        <button class="modal-close-btn" id="add-subject-close-btn">&times;</button>
+      </div>
+      <form id="add-subject-form">
+        <div class="form-group">
+          <label for="subject-name-input">Subject Name</label>
+          <input type="text" id="subject-name-input" class="input-control" placeholder="e.g. Organic Chemistry, Indian Polity" required maxlength="50">
+        </div>
+        
+        <div style="margin-bottom: 1.5rem;">
+          <span style="font-size: 0.8rem; font-weight: 600; color: var(--color-text-secondary);">Suggested Subjects by Exam:</span>
+          
+          <div class="exam-chips" style="margin-top: 0.5rem; margin-bottom: 0.75rem;">
+            <span class="exam-chip active-chip" id="chip-filter-upsc">UPSC</span>
+            <span class="exam-chip" id="chip-filter-jee">JEE</span>
+            <span class="exam-chip" id="chip-filter-neet">NEET</span>
+          </div>
+          
+          <div class="exam-chips" id="suggested-chips-container">
+            <!-- Chips will load dynamically here based on selected exam -->
+          </div>
+        </div>
+
+        <div style="display: flex; gap: 1rem; margin-top: 1rem;">
+          <button type="button" class="btn btn-secondary" id="add-subject-cancel-btn" style="flex: 1;">Cancel</button>
+          <button type="submit" class="btn btn-primary" style="flex: 1;">Add Subject</button>
+        </div>
+      </form>
+    </div>
+  </div>
+
+  <!-- Toast Notification Container -->
+  <div class="toast-container" id="toast-container"></div>
+
+  <!-- Footer -->
+  <footer>
+    <div class="container">
+      <p>&copy; 2026 StudyTrack. Empowering aspirants of UPSC, JEE, and NEET. All rights reserved.</p>
+    </div>
+  </footer>
+
+  <!-- Third-party CDN Libraries -->
+  <!-- Supabase JS -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+  
+  <!-- Core Logic Script -->
+  <script src="app.js"></script>
+</body>
+</html>
