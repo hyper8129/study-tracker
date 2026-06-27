@@ -26,61 +26,61 @@ let timerSubjectId = null;
 let timerStartTime = null;
 let timerIsPaused = false;
 
-// 3. Document Elements Cache
+// 3. Document Elements Cache (Using Getters to prevent null caching during early script execution)
 const elements = {
-  guestNav: document.getElementById('guest-nav'),
-  authNav: document.getElementById('auth-nav'),
-  displayUserEmail: document.getElementById('display-user-email'),
-  logoutBtn: document.getElementById('logout-btn'),
+  get guestNav() { return document.getElementById('guest-nav'); },
+  get authNav() { return document.getElementById('auth-nav'); },
+  get displayUserEmail() { return document.getElementById('display-user-email'); },
+  get logoutBtn() { return document.getElementById('logout-btn'); },
   
   // Views
   views: {
-    home: document.getElementById('home-view'),
-    auth: document.getElementById('auth-view'),
-    dashboard: document.getElementById('dashboard-view'),
-    report: document.getElementById('report-view')
+    get home() { return document.getElementById('home-view'); },
+    get auth() { return document.getElementById('auth-view'); },
+    get dashboard() { return document.getElementById('dashboard-view'); },
+    get report() { return document.getElementById('report-view'); }
   },
   
   // Auth Form Elements
-  loginForm: document.getElementById('login-form'),
-  loginEmail: document.getElementById('login-email'),
-  loginPassword: document.getElementById('login-password'),
-  signupForm: document.getElementById('signup-form'),
-  signupEmail: document.getElementById('signup-email'),
-  signupPassword: document.getElementById('signup-password'),
+  get loginForm() { return document.getElementById('login-form'); },
+  get loginEmail() { return document.getElementById('login-email'); },
+  get loginPassword() { return document.getElementById('login-password'); },
+  get signupForm() { return document.getElementById('signup-form'); },
+  get signupEmail() { return document.getElementById('signup-email'); },
+  get signupPassword() { return document.getElementById('signup-password'); },
   
   // Dashboard Elements
-  dashboardGreeting: document.getElementById('dashboard-greeting'),
-  streakCountVal: document.getElementById('streak-count-val'),
-  streakCard: document.getElementById('streak-card'),
-  todayTotalTime: document.getElementById('today-total-time'),
-  timerSubjectSelect: document.getElementById('timer-subject-select'),
-  timerClock: document.getElementById('timer-clock'),
-  timerStatus: document.getElementById('timer-status'),
-  timerCircleProgress: document.getElementById('timer-circle-progress'),
-  timerStartBtn: document.getElementById('timer-start-btn'),
-  timerPauseBtn: document.getElementById('timer-pause-btn'),
-  timerStopBtn: document.getElementById('timer-stop-btn'),
-  timerPanel: document.getElementById('timer-panel'),
-  dashboardSubjectsList: document.getElementById('dashboard-subjects-list'),
-  todayActivityList: document.getElementById('today-activity-list'),
+  get dashboardGreeting() { return document.getElementById('dashboard-greeting'); },
+  get streakCountVal() { return document.getElementById('streak-count-val'); },
+  get streakCard() { return document.getElementById('streak-card'); },
+  get todayTotalTime() { return document.getElementById('today-total-time'); },
+  get timerSubjectSelect() { return document.getElementById('timer-subject-select'); },
+  get timerClock() { return document.getElementById('timer-clock'); },
+  get timerStatus() { return document.getElementById('timer-status'); },
+  get timerCircleProgress() { return document.getElementById('timer-circle-progress'); },
+  get timerStartBtn() { return document.getElementById('timer-start-btn'); },
+  get timerPauseBtn() { return document.getElementById('timer-pause-btn'); },
+  get timerStopBtn() { return document.getElementById('timer-stop-btn'); },
+  get timerPanel() { return document.getElementById('timer-panel'); },
+  get dashboardSubjectsList() { return document.getElementById('dashboard-subjects-list'); },
+  get todayActivityList() { return document.getElementById('today-activity-list'); },
   
   // Modal Elements
-  addSubjectModal: document.getElementById('add-subject-modal'),
-  addSubjectTrigger: document.getElementById('add-subject-trigger'),
-  addSubjectCloseBtn: document.getElementById('add-subject-close-btn'),
-  addSubjectCancelBtn: document.getElementById('add-subject-cancel-btn'),
-  addSubjectForm: document.getElementById('add-subject-form'),
-  subjectNameInput: document.getElementById('subject-name-input'),
-  suggestedChipsContainer: document.getElementById('suggested-chips-container'),
-  chipUpsc: document.getElementById('chip-filter-upsc'),
-  chipJee: document.getElementById('chip-filter-jee'),
-  chipNeet: document.getElementById('chip-filter-neet'),
+  get addSubjectModal() { return document.getElementById('add-subject-modal'); },
+  get addSubjectTrigger() { return document.getElementById('add-subject-trigger'); },
+  get addSubjectCloseBtn() { return document.getElementById('add-subject-close-btn'); },
+  get addSubjectCancelBtn() { return document.getElementById('add-subject-cancel-btn'); },
+  get addSubjectForm() { return document.getElementById('add-subject-form'); },
+  get subjectNameInput() { return document.getElementById('subject-name-input'); },
+  get suggestedChipsContainer() { return document.getElementById('suggested-chips-container'); },
+  get chipUpsc() { return document.getElementById('chip-filter-upsc'); },
+  get chipJee() { return document.getElementById('chip-filter-jee'); },
+  get chipNeet() { return document.getElementById('chip-filter-neet'); },
   
   // Report Elements
-  reportSubjectsList: document.getElementById('report-subjects-list'),
-  reportCumulativeTime: document.getElementById('report-cumulative-time'),
-  toastContainer: document.getElementById('toast-container')
+  get reportSubjectsList() { return document.getElementById('report-subjects-list'); },
+  get reportCumulativeTime() { return document.getElementById('report-cumulative-time'); },
+  get toastContainer() { return document.getElementById('toast-container'); }
 };
 
 // 4. Suggested Subjects List
