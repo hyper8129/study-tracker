@@ -41,7 +41,7 @@ Write-Host "Configuring Git user details..."
 & $gitExe config user.email "user@studytrack.com"
 
 Write-Host "Adding files to staging..."
-& $gitExe add . | Out-Host
+& $gitExe add -A | Out-Host
 
 Write-Host "Creating initial commit..."
 & $gitExe commit -m "Initial commit of StudyTrack" | Out-Host
