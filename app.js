@@ -2,7 +2,16 @@
 const SUPABASE_URL = "https://bgivjkmybvltqizkvlbg.supabase.co";
 const SUPABASE_ANON_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJnaXZqa215YnZsdHFpemt2bGJnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODE5MzAwNjMsImV4cCI6MjA5NzUwNjA2M30.jKgLZZDy_rnWXeDkYG7_U188IX6Ssxj3Yjs3TqL2TAs";
 
-const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+let supabaseClient = null;
+try {
+  if (typeof supabase !== 'undefined') {
+    supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
+  } else {
+    console.error("Supabase CDN failed to load. Ad blocker or offline?");
+  }
+} catch (e) {
+  console.error("Failed to initialize Supabase:", e);
+}
 
 // 2. Application State
 let currentUser = null;
@@ -257,11 +266,13 @@ function updateNavigation() {
 }
 
 // Listen to Auth State Changes
-supabaseClient.auth.onAuthStateChange((event, session) => {
-  currentUser = session ? session.user : null;
-  updateNavigation();
-  router(); // Re-run router on auth state change
-});
+if (supabaseClient) {
+  supabaseClient.auth.onAuthStateChange((event, session) => {
+    currentUser = session ? session.user : null;
+    updateNavigation();
+    router(); // Re-run router on auth state change
+  });
+}
 
 // 8. Database Operations & Data Loaders
 async function fetchSubjects() {
@@ -687,68 +698,72 @@ function renderWeeklyChart() {
     };
   });
   
-  weeklyChart = new Chart(ctx, {
-    type: 'bar',
-    data: {
-      labels: labels,
-      datasets: datasets
-    },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      plugins: {
-        legend: {
-          position: 'top',
-          labels: {
-            color: '#94a3b8',
-            font: {
-              family: 'Plus Jakarta Sans',
-              weight: '600'
-            },
-            boxWidth: 12,
-            boxHeight: 12,
-            borderRadius: 4,
-            useBorderRadius: true
+  if (typeof Chart !== 'undefined') {
+    weeklyChart = new Chart(ctx, {
+      type: 'bar',
+      data: {
+        labels: labels,
+        datasets: datasets
+      },
+      options: {
+        responsive: true,
+        maintainAspectRatio: false,
+        plugins: {
+          legend: {
+            position: 'top',
+            labels: {
+              color: '#94a3b8',
+              font: {
+                family: 'Plus Jakarta Sans',
+                weight: '600'
+              },
+              boxWidth: 12,
+              boxHeight: 12,
+              borderRadius: 4,
+              useBorderRadius: true
+            }
+          },
+          tooltip: {
+            backgroundColor: '#0f172a',
+            titleFont: { family: 'Plus Jakarta Sans', weight: '700' },
+            bodyFont: { family: 'Plus Jakarta Sans' },
+            borderColor: 'rgba(255, 255, 255, 0.08)',
+            borderWidth: 1,
+            padding: 10,
+            callbacks: {
+              label: function(context) {
+                let label = context.dataset.label || '';
+                if (label) label += ': ';
+                if (context.raw !== undefined) label += context.raw.toFixed(1) + ' hrs';
+                return label;
+              }
+            }
           }
         },
-        tooltip: {
-          backgroundColor: '#0f172a',
-          titleFont: { family: 'Plus Jakarta Sans', weight: '700' },
-          bodyFont: { family: 'Plus Jakarta Sans' },
-          borderColor: 'rgba(255, 255, 255, 0.08)',
-          borderWidth: 1,
-          padding: 10,
-          callbacks: {
-            label: function(context) {
-              let label = context.dataset.label || '';
-              if (label) label += ': ';
-              if (context.raw !== undefined) label += context.raw.toFixed(1) + ' hrs';
-              return label;
+        scales: {
+          x: {
+            stacked: true,
+            grid: { display: false },
+            ticks: {
+              color: '#94a3b8',
+              font: { family: 'Plus Jakarta Sans', size: 10 }
+            }
+          },
+          y: {
+            stacked: true,
+            grid: { color: 'rgba(255, 255, 255, 0.05)' },
+            ticks: {
+              color: '#94a3b8',
+              font: { family: 'Plus Jakarta Sans', size: 10 },
+              callback: function(value) { return value + 'h'; }
             }
           }
         }
-      },
-      scales: {
-        x: {
-          stacked: true,
-          grid: { display: false },
-          ticks: {
-            color: '#94a3b8',
-            font: { family: 'Plus Jakarta Sans', size: 10 }
-          }
-        },
-        y: {
-          stacked: true,
-          grid: { color: 'rgba(255, 255, 255, 0.05)' },
-          ticks: {
-            color: '#94a3b8',
-            font: { family: 'Plus Jakarta Sans', size: 10 },
-            callback: function(value) { return value + 'h'; }
-          }
-        }
       }
-    }
-  });
+    });
+  } else {
+    console.error("Chart.js failed to load.");
+  }
 }
 
 function getSubjectColorPalette(numSubjects) {
@@ -941,8 +956,10 @@ function triggerConfetti() {
 
     const particleCount = 50 * (timeLeft / duration);
     // since particles fall down, animate a bit higher than random
-    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
-    confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+    if (typeof confetti !== 'undefined') {
+      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.1, 0.3), y: Math.random() - 0.2 } });
+      confetti({ ...defaults, particleCount, origin: { x: randomInRange(0.7, 0.9), y: Math.random() - 0.2 } });
+    }
   }, 250);
   
   showToast('Amazing study session! You hit your 30-minute goal today! 🔥', 'success');
@@ -985,11 +1002,25 @@ function init() {
   elements.timerStopBtn.addEventListener('click', () => stopTimerAndLog(true));
   
   // Check auth state initially
-  supabaseClient.auth.getSession().then(({ data: { session } }) => {
-    currentUser = session ? session.user : null;
+  if (supabaseClient) {
+    supabaseClient.auth.getSession().then(({ data: { session } }) => {
+      currentUser = session ? session.user : null;
+      updateNavigation();
+      router();
+    }).catch(err => {
+      console.error('Session retrieval failed:', err);
+      currentUser = null;
+      updateNavigation();
+      router();
+    });
+  } else {
+    currentUser = null;
     updateNavigation();
     router();
-  });
+    setTimeout(() => {
+      showToast('Database connection offline. Please disable ad-blockers and reload.', 'error');
+    }, 500);
+  }
 }
 
 // 15. Helper Utilities
@@ -1031,4 +1062,8 @@ function escapeHTML(str) {
 }
 
 // Run bootstrapping
-document.addEventListener('DOMContentLoaded', init);
+if (document.readyState === 'loading') {
+  document.addEventListener('DOMContentLoaded', init);
+} else {
+  init();
+}
